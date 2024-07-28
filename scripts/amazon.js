@@ -1,8 +1,9 @@
 import { cart } from "../data/cart-class.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-
+loadProducts(renderProductsGrid)
+function renderProductsGrid(){
 let productsHTML = "";
 products.forEach((product) => {
     productsHTML += `
@@ -69,3 +70,4 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
         document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
     });
 });
+}
