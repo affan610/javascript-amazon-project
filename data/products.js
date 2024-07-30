@@ -7,7 +7,10 @@ export function getProduct(productId) {
         }
     });
     return matchingProduct;
+
 }
+
+
 export class Product {
     id;
     image;
@@ -86,10 +89,10 @@ export class Appliace extends Product {
 // }
 // obj3.method()
 export let products = []
-export function loadProducts(func){
+export function loadProducts(func) {
     let xhr = new XMLHttpRequest()
-    xhr.addEventListener("load", ()=>{
-       products =  JSON.parse(xhr.response).map((productDetails) => {
+    xhr.addEventListener("load", () => {
+        products = JSON.parse(xhr.response).map((productDetails) => {
             if (productDetails.type === "clothing") {
                 return new Clothing(productDetails);
             }
@@ -99,6 +102,7 @@ export function loadProducts(func){
             return new Product(productDetails);
         })
         console.log("load products")
+        console.log(products)
         func()
     })
     xhr.open("GET", "https://supersimplebackend.dev/products")

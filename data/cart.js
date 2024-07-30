@@ -3,6 +3,7 @@ loadFromStorage()
 
 export function loadFromStorage() {
     cart = JSON.parse(localStorage.getItem("cart"))
+    console.log(cart)
     if (!cart) {
         cart = [{
             productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
@@ -61,6 +62,7 @@ export function calculateCartQuantity() {
 }
 export function updateQuantity(productId, newQuantity) {
     let matchingProduct;
+    console.log("hi")
     cart.forEach((cartItem) => {
         if (cartItem.productId === productId) {
             matchingProduct = cartItem

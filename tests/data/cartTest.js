@@ -52,7 +52,7 @@ describe("test suite: removeFromCart", () => {
 
 
         cart.removeFromCart("e43638ce-6aa0-4b85-b27f-e1d07eb678c6")
-        console.log(cart.cartItems)
+
         expect(cart.cartItems.length).toEqual(0)
         expect(cart.cartItems).toEqual([])
         expect(localStorage.setItem).toHaveBeenCalledTimes(1)

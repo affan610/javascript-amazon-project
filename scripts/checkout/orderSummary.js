@@ -7,6 +7,7 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js"
 // import renderCheckoutHeader from "./checkoutHeader.js"
 
 export function renderOrderSummary() {
+
     let cartSummaryHTML = ""
     cart.cartItems.forEach((cartItem) => {
         const productId = cartItem.productId
