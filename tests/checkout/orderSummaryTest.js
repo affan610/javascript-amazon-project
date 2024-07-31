@@ -1,6 +1,6 @@
 import { cart } from "../../data/cart-class.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
-import { getProduct, products, loadProducts } from "../../data/products.js";
+import { getProduct, products, loadProducts, loadProductsFetch } from "../../data/products.js";
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 import { formatCurrency } from "../../scripts/utils/money.js";
 describe('test suite: renderOrderSummary', () => {
@@ -9,7 +9,7 @@ describe('test suite: renderOrderSummary', () => {
 
 
     beforeAll((done) => {
-        loadProducts(() => {
+        loadProductsFetch().then(() => {
             done()
         })
     })

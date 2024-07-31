@@ -91,8 +91,11 @@ export function loadCart(func) {
 
     let xhr = new XMLHttpRequest()
     xhr.addEventListener("load", () => {
-        console.log(xhr.response)
-        func()
+
+        setTimeout(() => {
+            console.log(xhr.response)
+            func()
+        }, 1000);
     })
     xhr.open("GET", "https://supersimplebackend.dev/cart")
     xhr.send()
