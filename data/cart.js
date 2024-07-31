@@ -3,7 +3,6 @@ loadFromStorage()
 
 export function loadFromStorage() {
     cart = JSON.parse(localStorage.getItem("cart"))
-    console.log(cart)
     if (!cart) {
         cart = [{
             productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
@@ -62,7 +61,6 @@ export function calculateCartQuantity() {
 }
 export function updateQuantity(productId, newQuantity) {
     let matchingProduct;
-    console.log("hi")
     cart.forEach((cartItem) => {
         if (cartItem.productId === productId) {
             matchingProduct = cartItem
@@ -87,4 +85,16 @@ export function updateDeliveryOption(productId, deliveryOptionid) {
     }
     matchingItem.deliveryOptionId = deliveryOptionid
     saveToStorage()
+}
+export function loadCart(func) {
+
+
+    let xhr = new XMLHttpRequest()
+    xhr.addEventListener("load", () => {
+        console.log(xhr.response)
+        func()
+    })
+    xhr.open("GET", "https://supersimplebackend.dev/cart")
+    xhr.send()
+
 }

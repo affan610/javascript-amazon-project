@@ -6,6 +6,7 @@ export function getProduct(productId) {
             matchingProduct = product;
         }
     });
+
     return matchingProduct;
 
 }
@@ -102,8 +103,9 @@ export function loadProducts(func) {
             return new Product(productDetails);
         })
         console.log("load products")
-        console.log(products)
         func()
+
+
     })
     xhr.open("GET", "https://supersimplebackend.dev/products")
     xhr.send()
