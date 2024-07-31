@@ -6,36 +6,54 @@ import { loadCart } from "../data/cart.js";
 // import "../data/cart-class.js"
 // import "../data/car.js"
 
-Promise.all([
-    loadProductsFetch(),
-    new Promise((resolve) => {
+
+async function loadPage() {
+
+    await loadProductsFetch()
+    await new Promise((resolve) => {
         loadCart(() => {
             resolve()
         })
     })
-]).then((values) => {
-    // console.log(values)
     renderOrderSummary();
     renderPaymentSummary();
     renderCheckoutHeader();
-})
 
+}
+loadPage()
+    /*
+    Promise.all([
+        loadProductsFetch(),
+        new Promise((resolve) => {
+            loadCart(() => {
+                resolve()
+            })
+        })
+    ]).then((values) => {
+        console.log(values)
+        renderOrderSummary();
+        renderPaymentSummary();
+        renderCheckoutHeader();
+    })
 
-// new Promise((resolve) => {
-//     console.log("promise started")
-//     loadProducts(() => {
-//         resolve("value 1")
-//     })
-// }).then((value) => {
-// console.log(value)
-//     return new Promise((resolve) => {
-//         loadCart(() => {
-//             resolve()
-//         })
-//     })
-// }).then(() => {
+    */
+    /*
+    new Promise((resolve) => {
+        console.log("promise started")
+        loadProducts(() => {
+            resolve("value 1")
+        })
+    }).then((value) => {
+    console.log(value)
+        return new Promise((resolve) => {
+            loadCart(() => {
+                resolve()
+            })
+        })
+    }).then(() => {
 
-//     renderOrderSummary();
-//     renderPaymentSummary();
-//     renderCheckoutHeader();
-// })
+        renderOrderSummary();
+        renderPaymentSummary();
+        renderCheckoutHeader();
+    })
+        */
