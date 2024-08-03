@@ -8,10 +8,8 @@ describe('test suite: renderOrderSummary', () => {
     let productId2 = "e43638ce-6aa0-4b85-b27f-e1d07eb678c6"
 
 
-    beforeAll((done) => {
-        loadProductsFetch().then(() => {
-            done()
-        })
+    beforeAll( async () => {
+       await loadProductsFetch(~)
     })
 
     let productName1;
