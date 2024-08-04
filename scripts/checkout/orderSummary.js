@@ -9,6 +9,7 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js"
 export function renderOrderSummary() {
 
     let cartSummaryHTML = ""
+    console.log(cart.cartItems)
     cart.cartItems.forEach((cartItem) => {
         const productId = cartItem.productId
         const matchingProduct = getProduct(productId)
@@ -91,7 +92,7 @@ export function renderOrderSummary() {
             // )
 
             let deliveryDays = deliveryOption.deliveryDays
-            while (deliveryDays > 0) {
+            while (deliveryDays > 1) {
 
                 if (someDay.format("dddd") === "Saturday" || someDay.format("dddd") === "Sunday") {
                     someDay = someDay.add(1, "days")

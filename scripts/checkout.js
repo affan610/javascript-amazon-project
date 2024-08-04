@@ -3,10 +3,11 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import renderCheckoutHeader from "./checkout/checkoutHeader.js";
 import { loadProductsFetch } from "../data/products.js";
 import { loadCart, loadCartFetch } from "../data/cart.js";
+import { cart } from "../data/cart-class.js";
 // import "../data/cart-class.js"
 // import "../data/car.js"
 
-
+console.log(cart.cartItems)
 async function loadPage() {
     try {
     // throw "error1"
@@ -18,8 +19,9 @@ async function loadPage() {
     } catch (error){
          console.log("Unexpected error. Please Try again Later")
     }
-    renderOrderSummary();
+    
     renderPaymentSummary();
+    renderOrderSummary();
     renderCheckoutHeader();
 
 }
