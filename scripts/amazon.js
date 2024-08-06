@@ -31,8 +31,10 @@ products.forEach((product) => {
           </div>
 
           <div>
-            <select class="js-item-quantity"
-             data-product-id=${product.id}
+            <select class="js-item-quantity
+            js-select-product-id-${product.id}
+            "
+             
              >
               <option selected value="1">1</option>
               <option value="2">2</option>
@@ -67,33 +69,25 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-      let itemQuantity;
-      document.querySelectorAll(".js-item-quantity").forEach((selectButton)=>{ 
-        if(selectButton.dataset.productId === productId){
-          itemQuantity = selectButton.value
-        }
-      })
-      let matchingCartItem;
+      cart.addToCart(productId)
+      
 
-      cart.cartItems.forEach((cartItem)=>{
-        if(cartItem.productId === productId){
-          matchingCartItem =cartItem
-        }
-        if(matchingCartItem){
-           cart.updateQuantity(productId, itemQuantity)
-           updateHeaderCartQuantity()
-          } else{
+     const itemQuantity =  document.querySelector(`.js-select-product-id-${productId}`)
+      .value
+        if(itemQuantity === "1"){
+          console.log("first one" + itemQuantity)
           cart.addToCart(productId)
-          updateHeaderCartQuantity()
-        }
-      })
-      //  const adddMessage =  document.querySelector(`.js-added-to-cart-${productId}`)
-      //  adddMessage
-      //  .classList.add("added-to-cart-visible")
-      //  setTimeout(() => {
-      //   adddMessage
-      //  .classList.re("added-to-cart-visible")
-      //  }, 2000);
+          console.log(cart.cartItems)
+        updateHeaderCartQuantity()
+
+         } 
+        //   else {
+        //   console.log("second quantity" + itemQuantity)
+        //   cart.updateDeliveryOption(productId, itemQuantity)
+        //   updateHeaderCartQuantity()
+
+        //  }
+
       });
 });
 }
