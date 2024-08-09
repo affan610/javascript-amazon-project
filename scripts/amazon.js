@@ -56,7 +56,8 @@ products.forEach((product) => {
             Added
           </div>
 
-          <button class="add-to-cart-button button-primary js-add-to-cart"
+          <button class="add-to-cart-button button-primary
+           js-add-to-cart"
            data-product-id="${product.id}">
             Add to Cart
           </button>
@@ -66,28 +67,33 @@ products.forEach((product) => {
 let cartQuantity = cart.calculateCartQuantity();
 updateHeaderCartQuantity()
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+const addedMessageTimeouts = {} 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-      cart.addToCart(productId)
-      
-
-     const itemQuantity =  document.querySelector(`.js-select-product-id-${productId}`)
+      const itemQuantity =  document.querySelector(`.js-select-product-id-${productId}`)
       .value
-        if(itemQuantity === "1"){
-          console.log("first one" + itemQuantity)
-          cart.addToCart(productId)
+          cart.addToCart(productId, Number(itemQuantity))
           console.log(cart.cartItems)
-        updateHeaderCartQuantity()
+          console.log(itemQuantity)
+          updateHeaderCartQuantity()
 
-         } 
-        //   else {
-        //   console.log("second quantity" + itemQuantity)
-        //   cart.updateDeliveryOption(productId, itemQuantity)
-        //   updateHeaderCartQuantity()
+          const addedToCartMessage = document.querySelector(`.js-added-to-cart-${productId}`)
+          addedToCartMessage.classList.add("added-to-cart-visible")
 
-        //  }
 
+          const previousTimeoutId = addedMessageTimeouts[productId]
+          console.log(addedMessageTimeouts)
+
+          if(previousTimeoutId){
+            console.log(previousTimeoutId)
+            clearTimeout(previousTimeoutId)
+          }
+
+          const timeoutId = setTimeout(() => {
+            addedToCartMessage.classList.remove("added-to-cart-visible")
+          }, 2000);
+          addedMessageTimeouts[productId] = timeoutId
       });
 });
 }
