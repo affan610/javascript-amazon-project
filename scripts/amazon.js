@@ -3,12 +3,14 @@ import { products, loadProducts } from "../data/products.js";
 import { updateHeaderCartQuantity } from "./utils/headerCartQuantity.js";
 import { formatCurrency } from "./utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-loadProducts(renderProductsGrid)
-function renderProductsGrid(){
-let productsHTML = "";
-products.forEach((product) => {
+loadProducts(renderProductsGrid);
+function renderProductsGrid() {
+  let productsHTML = "";
+  products.forEach((product) => {
     productsHTML += `
-        <div data-product-id=${product.id}  class=" js-product-container product-container">
+        <div data-product-id=${
+          product.id
+        }  class=" js-product-container product-container">
           <div class="product-image-container">
             <img class="product-image"
               src="${product.image}">
@@ -63,37 +65,36 @@ products.forEach((product) => {
           </button>
         </div> 
   `;
-});
-let cartQuantity = cart.calculateCartQuantity();
-updateHeaderCartQuantity()
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
-const addedMessageTimeouts = {} 
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  });
+  let cartQuantity = cart.calculateCartQuantity();
+  updateHeaderCartQuantity();
+  document.querySelector(".js-products-grid").innerHTML = productsHTML;
+  const addedMessageTimeouts = {};
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-      const itemQuantity =  document.querySelector(`.js-select-product-id-${productId}`)
-      .value
-          cart.addToCart(productId, Number(itemQuantity))
-          console.log(cart.cartItems)
-          console.log(itemQuantity)
-          updateHeaderCartQuantity()
+      const itemQuantity = document.querySelector(
+        `.js-select-product-id-${productId}`
+      ).value;
+      cart.addToCart(productId, Number(itemQuantity));
 
-          const addedToCartMessage = document.querySelector(`.js-added-to-cart-${productId}`)
-          addedToCartMessage.classList.add("added-to-cart-visible")
+      updateHeaderCartQuantity();
 
+      const addedToCartMessage = document.querySelector(
+        `.js-added-to-cart-${productId}`
+      );
+      addedToCartMessage.classList.add("added-to-cart-visible");
 
-          const previousTimeoutId = addedMessageTimeouts[productId]
-          console.log(addedMessageTimeouts)
+      const previousTimeoutId = addedMessageTimeouts[productId];
 
-          if(previousTimeoutId){
-            console.log(previousTimeoutId)
-            clearTimeout(previousTimeoutId)
-          }
+      if (previousTimeoutId) {
+        clearTimeout(previousTimeoutId);
+      }
 
-          const timeoutId = setTimeout(() => {
-            addedToCartMessage.classList.remove("added-to-cart-visible")
-          }, 2000);
-          addedMessageTimeouts[productId] = timeoutId
-      });
-});
+      const timeoutId = setTimeout(() => {
+        addedToCartMessage.classList.remove("added-to-cart-visible");
+      }, 2000);
+      addedMessageTimeouts[productId] = timeoutId;
+    });
+  });
 }

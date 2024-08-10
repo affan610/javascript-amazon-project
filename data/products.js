@@ -1,74 +1,71 @@
 import { formatCurrency } from "../scripts/utils/money.js";
 export function getProduct(productId) {
-    
-    let matchingProduct;
-    products.forEach((product) => {
-        if (product.id === productId) {
-            matchingProduct = product;
-        }
-    });
+  let matchingProduct;
 
-    return matchingProduct;
+  products.forEach((product) => {
+    if (product.id === productId) {
+      matchingProduct = product;
+    }
+  });
 
+  return matchingProduct;
 }
-
-
 export class Product {
-    id;
-    image;
-    name;
-    rating;
-    priceCents;
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
 
-    constructor(productDetails) {
-        this.id = productDetails.id;
-        this.image = productDetails.image;
-        this.name = productDetails.name;
-        this.rating = productDetails.rating;
-        this.priceCents = productDetails.priceCents;
-    }
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
 
-    getStarsUrl() {
-        return `images/ratings/rating-${this.rating.stars * 10}.png`;
-    }
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
 
-    getPrice() {
-        return `$${formatCurrency(this.priceCents)}`;
-    }
-    extraInfoHTML() {
-        return "";
-    }
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+  extraInfoHTML() {
+    return "";
+  }
 }
 
 export class Clothing extends Product {
-    sizeChartLink;
-    constructor(productDetails) {
-        super(productDetails);
-        this.sizeChartLink = productDetails.sizeChartLink;
-    }
+  sizeChartLink;
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
 
-    extraInfoHTML() {
-        return `
+  extraInfoHTML() {
+    return `
         <a target="_blank" href="${this.sizeChartLink}" >
         Size Chart
         </a>
         `;
-    }
+  }
 }
 export class Appliace extends Product {
-    instructionsLink;
-    warrentyLink;
-    constructor(productDetails) {
-        super(productDetails);
-        this.instructionsLink = productDetails.instructionsLink;
-        this.warrentyLink = productDetails.warrentyLink;
-    }
-    extraInfoHTML() {
-        return `
+  instructionsLink;
+  warrentyLink;
+  constructor(productDetails) {
+    super(productDetails);
+    this.instructionsLink = productDetails.instructionsLink;
+    this.warrentyLink = productDetails.warrentyLink;
+  }
+  extraInfoHTML() {
+    return `
         <a target="_blank" href="${this.instructionsLink}">Instructions</a>
         <a target="_blank" href="${this.warrentyLink}" >Warrenty</a>
         `;
-    }
+  }
 }
 // const date = new Date()
 // console.log(date)
@@ -90,28 +87,29 @@ export class Appliace extends Product {
 //     }
 // }
 // obj3.method()
-export let products = []
+export let products = [];
 
 export function loadProductsFetch() {
-    const promise = fetch(
-        "https://supersimplebackend.dev/products"
-    ).then((response) => {
-        return response.json()
-    }).then((productsData) => {
-        products = productsData.map((productDetails) => {
-            if (productDetails.type === "clothing") {
-                return new Clothing(productDetails);
-            }
-            if (productDetails.type === "appliance") {
-                return new Appliace(productDetails);
-            }
-            return new Product(productDetails);
-        })
-        console.log("load products")
-    }).catch((error)=>{
-        console.log("  Unexpected error. Please Try again Later")
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => {
+      return response.json();
     })
-    return promise
+    .then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if (productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+        }
+        if (productDetails.type === "appliance") {
+          return new Appliace(productDetails);
+        }
+        return new Product(productDetails);
+      });
+      console.log("load products");
+    })
+    .catch((error) => {
+      console.log("  Unexpected error. Please Try again Later");
+    });
+  return promise;
 }
 // function normalCodeCatch(){
 //     try{
@@ -126,28 +124,26 @@ export function loadProductsFetch() {
 //     console.log("next step")
 // })
 export function loadProducts(func) {
-    let xhr = new XMLHttpRequest()
-    xhr.addEventListener("load", () => {
-        products = JSON.parse(xhr.response).map((productDetails) => {
-            if (productDetails.type === "clothing") {
-                return new Clothing(productDetails);
-            }
-            if (productDetails.type === "appliance") {
-                return new Appliace(productDetails);
-            }
-            return new Product(productDetails);
-        })
-        console.log("load products")
-        func()
+  let xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails);
+      }
+      if (productDetails.type === "appliance") {
+        return new Appliace(productDetails);
+      }
+      return new Product(productDetails);
+    });
+    console.log("load products");
+    func();
+  });
+  xhr.addEventListener("error", (error) => {
+    console.log("Unexpected error. Please Try again Later");
+  });
 
-
-    })
-xhr.addEventListener("error",(error)=>{
-    console.log("Unexpected error. Please Try again Later")
-} )
-
-    xhr.open("GET", "https://supersimplebackend.dev/products")
-    xhr.send()
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.send();
 }
 
 // export const products = [{

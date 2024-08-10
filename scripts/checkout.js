@@ -7,26 +7,20 @@ import { cart } from "../data/cart-class.js";
 // import "../data/cart-class.js"
 // import "../data/car.js"
 
-console.log(cart.cartItems)
 async function loadPage() {
-    try {
+  try {
     // throw "error1"
-    await Promise.all([
+    await Promise.all([loadProductsFetch(), loadCartFetch()]);
+  } catch (error) {
+    console.log("Unexpected error. Please Try again Later");
+  }
 
-     loadProductsFetch(),
-     loadCartFetch()
-    ])
-    } catch (error){
-         console.log("Unexpected error. Please Try again Later")
-    }
-    
-    renderPaymentSummary();
-    renderOrderSummary();
-    renderCheckoutHeader();
-
+  renderPaymentSummary();
+  renderOrderSummary();
+  renderCheckoutHeader();
 }
-loadPage()
-    /*
+loadPage();
+/*
     Promise.all([
         loadProductsFetch(),
         new Promise((resolve) => {
@@ -42,7 +36,7 @@ loadPage()
     })
 
     */
-    /*
+/*
     new Promise((resolve) => {
         console.log("promise started")
         loadProducts(() => {
