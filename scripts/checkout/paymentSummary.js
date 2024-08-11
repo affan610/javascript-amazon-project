@@ -88,9 +88,8 @@ export function renderPaymentSummary(productId) {
       } catch (error) {
         console.log("Unexpected error. Try Again Later.");
       }
-      // window.location.href = "orders.html"
-      // cart.cartItems = [];
+      window.location.href = "orders.html"
+      cart.cartItems = [];
       cart.saveToStorage();
-      console.log(orders);
     });
 }

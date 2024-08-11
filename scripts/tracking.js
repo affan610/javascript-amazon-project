@@ -1,27 +1,27 @@
 import { updateHeaderCartQuantity } from "./utils/headerCartQuantity.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
-import { orders } from "../data/orders.js";
+import { getOrder, orders } from "../data/orders.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
-const url = new URL(window.location.href);
-const productId = url.searchParams.get("productId");
 
-const orderId = url.searchParams.get("orderId");
-updateHeaderCartQuantity();
 
 async function loadPage() {
+  updateHeaderCartQuantity();
   await loadProductsFetch();
-  const matchingProduct = getProduct(productId);
+  const url = new URL(window.location.href);
+  const productId = url.searchParams.get("productId");
+
+  const orderId = url.searchParams.get("orderId");
+  const product = getProduct(productId);
+  const order = getOrder(orderId)
   let matchingOrderProduct;
-  orders.forEach((order) => {
-    if (order.id === orderId) {
+  
+ console.log(orders)
       order.products.forEach((product) => {
         if ((product.productId = productId)) {
           matchingOrderProduct = product;
         }
       });
-    }
-  });
   let deliveryTime = dayjs(matchingOrderProduct.estimatedDeliveryTime).format(
     "dddd MMMM D"
   );
@@ -34,14 +34,14 @@ async function loadPage() {
         <div class="delivery-date">Arriving on ${deliveryTime}</div>
 
         <div class="product-info">
-          ${matchingProduct.name}
+          ${product.name}
         </div>
 
         <div class="product-info">Quantity: ${matchingOrderProduct.quantity}</div>
 
         <img
           class="product-image"
-          src="${matchingProduct.image}"
+          src="${product.image}"
         />
 
         <div class="progress-labels-container">

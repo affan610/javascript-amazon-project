@@ -1,6 +1,7 @@
 import { cart } from "../../data/cart-class.js";
 import { getProduct, products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
+import { calculateDeliveryDate } from "../../data/deliveryOptions.js";
 import {
   deliveryOptions,
   getDeliveryOption,
@@ -14,17 +15,15 @@ export function renderOrderSummary() {
   cart.cartItems.forEach((cartItem) => {
     const productId = cartItem.productId;
     const matchingProduct = getProduct(productId);
-    let deliveryOptionId = cartItem.deliveryOptionId;
-    const deliveryOption = getDeliveryOption(deliveryOptionId);
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-    const dateString = deliveryDate.format("dddd, MMMM D");
+    const matchingDeliveryOption = getDeliveryOption(cartItem.deliveryOptionId)
+    
+
     cartSummaryHTML += `
             <div class="cart-item-container 
             js-cart-item-container
             js-cart-item-container-${matchingProduct.id}">
                           <div class="delivery-date">
-                               ${dateString}
+                         ${calculateDeliveryDate(matchingDeliveryOption)}
                           </div>
 
                       <div class="cart-item-details-grid">
@@ -89,28 +88,15 @@ export function renderOrderSummary() {
     `;
   });
 
+
+
+
   function deliveryOptionHTML(matchingProduct, cartItem) {
     let html = "";
 
     deliveryOptions.forEach((deliveryOption) => {
-      let deliveryDate;
-      function isWeekend(date) {
-        const dayOfWeek = date.format("dddd");
-        return dayOfWeek === "Saturday" || dayOfWeek === "Sunday";
-      }
-      calculateDeliveryDate();
-      function calculateDeliveryDate() {
-        let remainingDays = deliveryOption.deliveryDays;
-        deliveryDate = dayjs().add(1, "day");
-
-        while (remainingDays > 0) {
-          deliveryDate = deliveryDate.add(1, "day");
-          if (!isWeekend(deliveryDate)) {
-            remainingDays--;
-          }
-        }
-      }
-      const dateString = deliveryDate.format("dddd, MMMM D");
+      
+       
 
       const priceString =
         deliveryOption.priceCents === 0
@@ -134,7 +120,7 @@ export function renderOrderSummary() {
         >
         <div>
             <div class="delivery-option-date">
-                ${dateString}
+                ${calculateDeliveryDate(deliveryOption)}
             </div>
             <div class="delivery-option-price">
                 ${priceString} Shipping
@@ -225,8 +211,7 @@ export function renderOrderSummary() {
   });
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
-      const { productId, deliveryOptionId } = element.dataset;
-
+      const { productId, deliveryOptionId } = element.dataset
       cart.updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
       renderPaymentSummary();

@@ -7,7 +7,6 @@ import { updateHeaderCartQuantity } from "../scripts/utils/headerCartQuantity.js
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 updateHeaderCartQuantity();
-console.log(orders);
 async function loadPage() {
   await loadProductsFetch();
   let ordersHTML = "";
