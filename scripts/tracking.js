@@ -1,6 +1,7 @@
 import { updateHeaderCartQuantity } from "./utils/headerCartQuantity.js";
 import { getProduct, loadProductsFetch } from "../data/products.js";
 import { getOrder, orders } from "../data/orders.js";
+import searchProducts from "./utils/searchProducts.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 async function loadPage() {
@@ -68,7 +69,6 @@ async function loadPage() {
   document.querySelector(".js-order-tracking").innerHTML = trackingHtml;
 }
 loadPage();
-document.querySelector(".search-button").addEventListener("click", () => {
-  let keyword = document.querySelector(".search-bar").value;
-  window.location.href = `amazon.html?search=${keyword}`;
+document.querySelector(".js-search-button").addEventListener("click", () => {
+  searchProducts();
 });

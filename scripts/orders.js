@@ -5,6 +5,7 @@ import { getProduct, loadProductsFetch } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import { updateHeaderCartQuantity } from "../scripts/utils/headerCartQuantity.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import searchProducts from "./utils/searchProducts.js";
 
 updateHeaderCartQuantity();
 async function loadPage() {
@@ -84,10 +85,12 @@ async function loadPage() {
       console.log(cart.cartItems);
       updateHeaderCartQuantity();
       button.innerHTML = `
-      
       <span>Added</span>
       `;
     });
+  });
+  document.querySelector(".js-search-button").addEventListener("click", () => {
+    searchProducts();
   });
 }
 loadPage();
