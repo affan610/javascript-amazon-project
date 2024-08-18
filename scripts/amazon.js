@@ -6,16 +6,19 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import searchProducts from "./utils/searchProducts.js";
 loadProducts(renderProductsGrid);
 function renderProductsGrid() {
+  console.log(typeof products)
   let productsHTML = "";
   const url = new URL(window.location.href);
   const search = url.searchParams.get("search");
+  console.log(products)
   let filteredroducts = products;
   if (search) {
     filteredroducts = products.filter((product) => {
-      return product.name.includes(search);
+      return product.name.toLowerCase().includes(search);
     });
   }
   filteredroducts.forEach((product) => {
+    
     productsHTML += `
           <div data-product-id=${
             product.id
