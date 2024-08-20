@@ -92,5 +92,10 @@ async function loadPage() {
   document.querySelector(".js-search-button").addEventListener("click", () => {
     searchProducts();
   });
+     document.querySelector(".js-search-bar").addEventListener("keydown", (event)=>{
+    if(event.key === "Enter"){
+      searchProducts();
+    }
+   })
 }
 loadPage();

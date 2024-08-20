@@ -29,13 +29,17 @@ async function loadPage() {
   const deliveryTimeOrder = dayjs(matchingOrderProduct.estimatedDeliveryTime);
   const percentProgress =
     ((today - orderTime) / (deliveryTimeOrder - orderTime)) * 100;
-  console.log(percentProgress);
+let deliveryMsg= "Arriving On "
+
+// if(deliveryTimeOrder>today){
+//   deliveryMsg = "Delivered On"
+// }
   let trackingHtml = ` 
          <a class="back-to-orders-link link-primary" href="orders.html">
           View all orders
         </a>
 
-        <div class="delivery-date">Arriving on ${deliveryTime}</div>
+        <div class="delivery-date">${deliveryMsg} ${deliveryTime}</div>
 
         <div class="product-info">
           ${product.name}
@@ -72,3 +76,10 @@ loadPage();
 document.querySelector(".js-search-button").addEventListener("click", () => {
   searchProducts();
 });
+     document
+       .querySelector(".js-search-bar")
+       .addEventListener("keydown", (event) => {
+         if (event.key === "Enter") {
+           searchProducts();
+         }
+       });

@@ -6,15 +6,19 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import searchProducts from "./utils/searchProducts.js";
 loadProducts(renderProductsGrid);
 function renderProductsGrid() {
-  console.log(typeof products)
   let productsHTML = "";
   const url = new URL(window.location.href);
   const search = url.searchParams.get("search");
-  console.log(products)
   let filteredroducts = products;
   if (search) {
     filteredroducts = products.filter((product) => {
-      return product.name.toLowerCase().includes(search);
+      let matchingKeyword = false
+     product.keywords.forEach((keyword)=>{
+      if(keyword.toLowerCase().includes(search.toLowerCase())){
+       matchingKeyword = true
+      }
+     })
+     return matchingKeyword || product.name.toLowerCase().includes(search.toLowerCase());
     });
   }
   filteredroducts.forEach((product) => {
@@ -113,4 +117,9 @@ function renderProductsGrid() {
   document.querySelector(".js-search-button").addEventListener("click", () => {
     searchProducts();
   });
+   document.querySelector(".js-search-bar").addEventListener("keydown", (event)=>{
+    if(event.key === "Enter"){
+      searchProducts();
+    }
+   })
 }
